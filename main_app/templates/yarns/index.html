@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Yarn List</h1>
+
+{% for yarn in yarns %}
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">{{ yarn.brand }}</span>
+      <p>Name: {{ yarn.name }}</p>
+      <p>Size: {{ yarn.size }}</p>
+      <p>Description: {{ yarn.description }}</p>
+      <p>Color: {{ yarn.color }}</p>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
