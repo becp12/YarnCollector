@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.db import models
 
 # Create your models here.
@@ -8,5 +9,9 @@ class Yarn(models.Model):
     size = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
     color = models.CharField(max_length=50)
+
     def __str__(self):
         return f'{self.brand} {self.name} ({self.id})'
+        
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'cat.id':self.id})
