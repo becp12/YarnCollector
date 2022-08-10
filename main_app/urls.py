@@ -9,4 +9,5 @@ urlpatterns = [
     path('yarns/create/', views.YarnCreate.as_view(), name='yarn_create'),
     path('yarns/<int:pk>/update/', views.YarnUpdate.as_view(), name='yarn_update'),
     path('yarns/<int:pk>/delete/', views.YarnDelete.as_view(), name='yarn_delete'),
+    path('yarns/<int:yarn_id>/add_quantity/', views.add_quantity, name='add_quantity'),
 ]
