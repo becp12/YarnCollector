@@ -4,6 +4,7 @@ from django.db import models
 from django.urls import reverse
 from django.core.validators import MinValueValidator
 from datetime import date, time, datetime
+from django.utils import timezone
 
 # from datetime import date
 
@@ -32,7 +33,7 @@ class Fibre(models.Model):
     
     def __str__(self):
         return f'{self.name}'
-        
+
 
 class Yarn(models.Model):
     brand = models.CharField(max_length=50)
@@ -56,7 +57,7 @@ class Yarn(models.Model):
 
 class Quantity(models.Model):
     date = models.DateField('Quantity as of Date')
-    time = models.TimeField('Quantity as of Time')
+    time = models.TimeField('Quantity as of Time', default=timezone.now)
     amount = models.FloatField('Amount of Yarn left', validators=[MinValueValidator(0.0)])
     unit = models.CharField(
         'Unit of Measurement',
