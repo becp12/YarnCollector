@@ -25,19 +25,21 @@
             <input type="submit" value="Update Quantity" class="btn">
         </form>
         <br>
-        <!-- {% if yarn.yarn_remaining %}
-          <div class="card-panel teal-text center-align">You still have yarn remaining...</div>
+        {% if yarn.yarn_remaining %}
+          <div class="card-panel center-align">You do not need to buy more yarn</div>
         {% else %}
-          <div class="card-panel red-text center-align">You need to buy more yarn!</div>
-        {% endif %} -->
+          <div class="card-panel red-text center-align">You need to buy more yarn....</div>
+        {% endif %}
         <table class="striped">
             <thead>
-            <tr><th>Date</th><th>Amount</th><th>Unit</th></tr>
+            <tr><th>Date</th><th>Time</th><th>Amount</th><th>Unit</th></tr>
             </thead>
             <tbody>
             {% for quantity in yarn.quantity_set.all %}
                 <tr>
                 <td>{{ quantity.date }}</td>
+                <td>{{ quantity.time }}</td>
+                
                 <td>{{ quantity.amount }}</td>
                 <td>{{ quantity.get_unit_display }}</td>
                 </tr>
@@ -45,6 +47,53 @@
             </tbody>
         </table>
     </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ yarn.brand }} {{ yarn.name }}'s Fibre Content</h3>
+    {% if yarn.fibre.count %}
+      {% for fibre in yarn.fibre.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              <span>Name: {{ fibre.name }}, Origin: {{ fibre.get_origin_display }}</span>
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'unassoc_fibre' yarn.id fibre.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No Fibre Listed</h5>
+    {% endif %}
+  </div>
+  <div class="col s6">
+    <h3>Available Fibres</h3>
+    {% if fibre.count %}
+      {% for fibre in fibre.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              <span>Name: {{ fibre.name }}, Origin: {{ fibre.get_origin_display }}</span>
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_fibre' yarn.id fibre.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{ yarn.brand }} {{ yarn.name }} Already Has All Fibres Available</h5>
+    {% endif %}
+  </div>
 </div>
 
 <script>
@@ -55,6 +104,11 @@
         setDefaultDate: true,
         autoClose: true
     });
+
+    const timeEl = document.getElementById('id_time');
+    M.Timepicker.init(timeEl);
+
+    // , {twelveHour: false}
 
     const selectEl = document.getElementById('id_unit');
     M.FormSelect.init(selectEl);
