@@ -1,5 +1,8 @@
+import uuid
+import boto3
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 from .models import Yarn, Fibre
 from .forms import QuantityForm
 # Add the following import
@@ -70,3 +73,21 @@ def assoc_fibre(request, yarn_id, fibre_id):
 def unassoc_fibre(request, yarn_id, fibre_id):
   Yarn.objects.get(id=yarn_id).fibre.remove(fibre_id)
   return redirect('detail', yarn_id=yarn_id)
+
+class FibreList(ListView):
+  model = Fibre
+
+class FibreDetail(DetailView):
+  model = Fibre
+
+class FibreCreate(CreateView):
+  model = Fibre
+  fields = '__all__'
+
+class FibreUpdate(UpdateView):
+  model = Fibre
+  fields = ['name', 'origin']
+
+class FibreDelete(DeleteView):
+  model = Fibre
+  success_url = '/fibres/'

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Fibre Details</h1>
+
+<div class="row">
+  <div class="col s6 col-offset-3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ fibre.name }}</span>
+        <p>Origin: {{ fibre.get_origin_display }}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'fibre_update' fibre.id %}">Edit</a>
+        <a href="{% url 'fibre_delete' fibre.id %}">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

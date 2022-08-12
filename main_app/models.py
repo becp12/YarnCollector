@@ -34,6 +34,9 @@ class Fibre(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def get_absolute_url(self):
+        return reverse('fibre_detail', kwargs={'pk': self.id})
+
 
 class Yarn(models.Model):
     brand = models.CharField(max_length=50)
@@ -77,4 +80,4 @@ class Quantity(models.Model):
     class Meta:
         ordering = ['-date', '-time']
 
-    
+
